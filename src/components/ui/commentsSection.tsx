@@ -29,6 +29,8 @@ const CommentsSection = ({ comments, movieId }: IProps) => {
           {currentComments.map((com) => (
             <Comment
               key={com.id}
+              comId={com.id}
+              userId={com.userId}
               userImg={com.user.image}
               name={com.user.name || com.user.email}
               createdAt={com.createdAt}

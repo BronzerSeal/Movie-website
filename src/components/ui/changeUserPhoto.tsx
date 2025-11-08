@@ -1,6 +1,6 @@
 "use client";
 import { useAuthStore } from "@/store/auth.store";
-import { handleUpload } from "@/utils/handleUpload";
+import { handleUpload } from "@/actions/handleUpload";
 import { Avatar, Button, Card } from "@heroui/react";
 import { useSession } from "next-auth/react";
 import { useRef } from "react";

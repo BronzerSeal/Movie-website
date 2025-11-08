@@ -231,7 +231,10 @@ export default function Header() {
               >
                 My Settings
               </DropdownItem>
-              <DropdownItem key="help_and_feedback">
+              <DropdownItem
+                key="help_and_feedback"
+                onClick={() => router.push("/help")}
+              >
                 Help & Feedback
               </DropdownItem>
               <DropdownItem key="logout" color="danger" onClick={handleSignOut}>

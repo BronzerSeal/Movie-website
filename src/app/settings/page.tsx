@@ -1,11 +1,14 @@
 "use client";
 import { getUserByEmail } from "@/actions/getUserByEmail";
 import { signOutFunc } from "@/actions/sign-out";
+import MovieCard from "@/components/common/movieCard";
 import UserTitle from "@/components/common/userTitle";
 import ChangeUserPhoto from "@/components/ui/changeUserPhoto";
 import ProfileForm from "@/components/ui/profileForm";
 import { userSettingsConfig } from "@/config/userSettingsConfig";
+import { movieService } from "@/services/movieService";
 import { useAuthStore } from "@/store/auth.store";
+import { DetailMovie } from "@/types/movie.types";
 import {
   Button,
   Card,
@@ -30,6 +33,9 @@ const SettinsPage = () => {
   const [selectedButton, setSelectedButton] = useState("Home");
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [favouriteMovies, setFavouriteMovies] = useState<DetailMovie[] | null>(
+    null
+  );
 
   const [formData, setFormData] = useState<FormData>({
     email: null,
@@ -57,6 +63,20 @@ const SettinsPage = () => {
     }
 
     if (session?.user?.email) fetchUser();
+  }, [session]);
+
+  useEffect(() => {
+    async function getFavouriteMovies() {
+      if (!session?.user?.favouriteMovies) return;
+      const data = await movieService.getFavouriteMovies(
+        session?.user?.favouriteMovies
+      );
+
+      if (!data) return;
+      setFavouriteMovies(data);
+    }
+
+    if (session?.user?.favouriteMovies) getFavouriteMovies();
   }, [session]);
 
   const handleSignOut = async () => {
@@ -118,26 +138,49 @@ const SettinsPage = () => {
           </Button>
         </CardFooter>
       </Card>
-      <div>
-        <h1 className="font-bold text-4xl">Profile Settings</h1>
-        <h2 className="text-gray-500 text-[18px]">
-          Manage your public profile information.
-        </h2>
-        <ChangeUserPhoto
-          previewUrl={previewUrl}
-          setPreviewUrl={setPreviewUrl}
-          userImg={session.user?.image}
-          userId={session.user?.id}
-        />
 
-        <div className="mt-6">
-          <ProfileForm
-            userName={formData.displayName || ""}
-            userEmail={formData.email}
-            aboutUser={formData.about || ""}
-            onChange={handleChange}
-          />
-        </div>
+      <div>
+        {selectedButton === "Home" ? (
+          <>
+            <h1 className="font-bold text-4xl">Profile Settings</h1>
+            <h2 className="text-gray-500 text-[18px]">
+              Manage your public profile information.
+            </h2>
+            <ChangeUserPhoto
+              previewUrl={previewUrl}
+              setPreviewUrl={setPreviewUrl}
+              userImg={session.user?.image}
+              userId={session.user?.id}
+            />
+
+            <div className="mt-6">
+              <ProfileForm
+                userName={formData.displayName || ""}
+                userEmail={formData.email}
+                aboutUser={formData.about || ""}
+                onChange={handleChange}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <h1 className="font-bold text-4xl">Favourite movies</h1>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+              {favouriteMovies?.length === 0 || favouriteMovies === null ? (
+                <p>No movies</p>
+              ) : (
+                favouriteMovies.map((movie) => (
+                  <MovieCard
+                    key={movie.id}
+                    id={movie.id}
+                    imgUrl={movie.poster_path!}
+                    title={movie.title!}
+                  />
+                ))
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

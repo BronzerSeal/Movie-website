@@ -46,6 +46,26 @@ export const movieService = {
     );
     return response.data;
   },
+  getFavouriteMovies: async (ids: string[]) => {
+    if (!ids || ids.length === 0) return [];
+
+    const moviesWithNull: (DetailMovie | null)[] = await Promise.all(
+      ids.map(async (id) => {
+        try {
+          return await movieService.getMovieById(id);
+        } catch (err) {
+          console.error(`Error fetching movie with id ${id}`, err);
+          return null;
+        }
+      })
+    );
+
+    const movies: DetailMovie[] = moviesWithNull.filter(
+      (movie): movie is DetailMovie => movie !== null
+    );
+
+    return movies;
+  },
   getMovieVideoById: async (id: number) => {
     const response = await httpService.get<movieVideoResponse>(
       `${ServiceEndpoint}${id}/videos`,

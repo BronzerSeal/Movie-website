@@ -1,10 +1,13 @@
 "use client";
 import { getBackdropUrl } from "@/utils/getImageUrl ";
 import { Card, CardFooter, Image, Button, Chip } from "@heroui/react";
-import { Info } from "lucide-react";
+import { Heart, Info } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MovieInfoModal from "./modals/movieInfo.modal";
+import { toggleFavouriteMovie } from "@/actions/userFavouriteMovie";
+import { useAuthStore } from "@/store/auth.store";
+import { useSession } from "next-auth/react";
 
 interface IProps {
   bgPath: string;
@@ -28,6 +31,27 @@ const NowPlayingBigCard = ({
   movieDopInfo,
 }: IProps) => {
   const [isMovieInfoOpen, setIsMovieInfoOpen] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(false);
+  const { session } = useAuthStore();
+  const { update } = useSession();
+
+  const toggleHeart = async () => {
+    setIsFavourite((PrevState) => !PrevState);
+
+    const response = await toggleFavouriteMovie(
+      id.toString(),
+      session?.user?.id!
+    );
+    await update({
+      user: { ...session!.user, favouriteMovies: response },
+    });
+  };
+
+  useEffect(() => {
+    if (!session?.user.favouriteMovies) return;
+    const isFav: boolean = session.user.favouriteMovies.includes(id.toString());
+    setIsFavourite(isFav);
+  }, [session]);
 
   return (
     <Card isFooterBlurred className="mt-3 text-white">
@@ -40,11 +64,22 @@ const NowPlayingBigCard = ({
         className={`before:bg-white/10 border-white/20 border-1  py-1 absolute  rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10 
         ${!showButtons && "justify-between"}`}
       >
-        <div>
+        <div className="flex ">
+          {session?.user?.id && (
+            <Heart
+              size={28}
+              onClick={toggleHeart}
+              className={`cursor-pointer transition-all duration-200 mt-0.5 mr-1 ${
+                isFavourite
+                  ? "text-red-500 fill-red-500 scale-110"
+                  : "scale-100"
+              }`}
+            />
+          )}
           <h1
             className={`font-bold ${
               showButtons ? "text-4xl" : "md:text-3xl"
-            }  mb-0.5`}
+            }  mb-0.5 `}
           >
             {title}
           </h1>

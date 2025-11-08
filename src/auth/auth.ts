@@ -79,7 +79,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token && session.user) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.id as string },
-          select: { about: true, image: true, name: true },
+          select: {
+            about: true,
+            image: true,
+            name: true,
+            favouriteMovies: true,
+          },
         });
 
         (session.user as any).id = token.id;
@@ -88,6 +93,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           dbUser?.image || (token as any).image || null;
         (session.user as any).name =
           dbUser?.name || (token as any).name || null;
+        (session.user as any).favouriteMovies =
+          dbUser?.favouriteMovies || (token as any).favouriteMovies || [];
       }
 
       return session;
