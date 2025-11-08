@@ -4,9 +4,7 @@ import localApi from "./localApi";
 interface ICreateComment {
   movieId: number;
   userId: string;
-  username?: string | null;
   content: string;
-  avatarUrl?: string | null;
 }
 
 export const commentService = {
@@ -16,22 +14,14 @@ export const commentService = {
     });
     return response.data;
   },
-  createComment: async ({
-    movieId,
-    userId,
-    username,
-    content,
-    avatarUrl,
-  }: ICreateComment) => {
+  createComment: async ({ movieId, userId, content }: ICreateComment) => {
     // if (content.trim()) return;
     const response = await localApi.post(
       "/api/comments",
       {
         movieId,
         userId,
-        username,
         content,
-        avatarUrl,
       },
       {
         headers: { "Content-Type": "application/json" },

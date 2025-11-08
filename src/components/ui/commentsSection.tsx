@@ -3,7 +3,6 @@ import { Comment as CommentType } from "@/types/comment.type";
 import Comment from "../common/comment";
 import { Pagination } from "@heroui/react";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import CreateComment from "./createComment";
 
 interface IProps {
@@ -21,8 +20,6 @@ const CommentsSection = ({ comments, movieId }: IProps) => {
 
   const totalPages = Math.ceil(comments.length / COMMENTS_PER_PAGE);
 
-  if (status === "loading") return <p>Loading...</p>;
-
   return (
     <section className="container">
       <h1 className="text-3xl font-bold mt-4 mb-2">Comments</h1>
@@ -32,8 +29,8 @@ const CommentsSection = ({ comments, movieId }: IProps) => {
           {currentComments.map((com) => (
             <Comment
               key={com.id}
-              userImg={com.avatarUrl}
-              name={com.username}
+              userImg={com.user.image}
+              name={com.user.name || com.user.email}
               createdAt={com.createdAt}
               content={com.content}
             />

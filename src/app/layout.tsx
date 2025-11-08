@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
 import Header from "@/components/ui/layout/header";
-import { siteConfig } from "@/config/siteConfig";
 import { layoutConfig } from "@/config/layoutConfig";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth/auth";
@@ -64,4 +63,3 @@ export default async function RootLayout({
     </html>
   );
 }
-//https://image.tmdb.org/t/p/w500/d8duYyyC9J5T825Hg7grmaabfxQ.jpg

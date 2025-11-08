@@ -24,6 +24,7 @@ import { signOutFunc } from "@/actions/sign-out";
 import { useAuthStore } from "@/store/auth.store";
 import { searchService } from "@/services/search.service";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export const SearchIcon = ({
   size = 24,
@@ -77,7 +78,8 @@ export const Logo = () => {
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const { isAuth, session, status, setAuthState } = useAuthStore();
+  const { isAuth, setAuthState } = useAuthStore();
+  const { data: session, status } = useSession();
 
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -87,7 +89,6 @@ export default function Header() {
   const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
-
   const handleSearchValue = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const search = async (MovieName: string) => {
       const resp = await searchService.getMovieByName(MovieName);
@@ -156,7 +157,7 @@ export default function Header() {
           classNames={{
             base: "max-w-full sm:max-w-[10rem] h-10",
             mainWrapper: "h-full",
-            input: "text-small !text-white placeholder-gray-400", // важно: !text-white
+            input: "text-small !text-white placeholder-gray-400",
             inputWrapper: `
       h-full font-normal 
       bg-transparent 
@@ -224,7 +225,12 @@ export default function Header() {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{session?.user?.email}</p>
               </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
+              <DropdownItem
+                key="settings"
+                onClick={() => router.push("/settings")}
+              >
+                My Settings
+              </DropdownItem>
               <DropdownItem key="help_and_feedback">
                 Help & Feedback
               </DropdownItem>

@@ -12,6 +12,7 @@ model User {
   id        String @id @default(uuid())
   email     String? @unique
   password  String?
+  about     String?
 
   name      String?
   image     String?
@@ -19,6 +20,7 @@ model User {
 
   accounts      Account[]
   sessions      Session[]
+  comments      Comment[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -66,14 +68,15 @@ model VerificationToken {
 }
 
 model Comment {
-  username  String
-  avatarUrl String?
   content   String
   movieId   Int
   userId    String
+  user      User     @relation(fields: [userId], references: [id])
   
   id String    @id @default(cuid())
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("comments")
 }

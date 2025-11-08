@@ -41,10 +41,19 @@ cd cineview
 npm install
 
 Create an .env file in the root directory with the following variables:
-DATABASE_URL="your_database_url"
-NEXTAUTH_SECRET="your_nextauth_secret"
-NEXTAUTH_URL="http://localhost:3000"
-TMDB_API_KEY="your_tmdb_api_key"
+# NextAuth Configuration
+NEXTAUTH_URL=http://localhost:3000
+AUTH_SECRET="your_auth_secret"
+
+# Google Provider (optional)
+AUTH_GOOGLE_ID=your_google_client_id
+AUTH_GOOGLE_SECRET=your_google_client_secret
+
+# TMDB API
+NEXT_PUBLIC_TMDB_BEARER_TOKEN=your_tmdb_bearer_token
+
+# Database (example for PostgreSQL)
+DATABASE_URL="postgresql://user:password@localhost:5432/cineview?schema=public"
 
 Run Prisma migrations and start the app:
 npx prisma migrate dev
@@ -52,7 +61,7 @@ npm run dev
 
 Project Structure
 graphql
-Копировать код
+
 cineview/
  ├── components/        # Reusable UI and logic components
  ├── pages/             # Next.js routes

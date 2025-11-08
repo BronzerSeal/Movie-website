@@ -28,9 +28,7 @@ const CreateComment = ({ movieId, comments }: IProps) => {
     const res = await commentService.createComment({
       movieId: Number(movieId),
       userId: session?.user.id,
-      username: session?.user.name || session?.user.email,
       content: newComment,
-      avatarUrl: session?.user.image,
     });
     setComments([res, ...comments]);
     setNewComment("");

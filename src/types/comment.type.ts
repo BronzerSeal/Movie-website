@@ -1,12 +1,15 @@
 export interface Comment {
-  avatarUrl: string;
   content: string;
   createdAt: string;
   id: string;
   movieId: string;
   updatedAt: string;
   userId: string;
-  username: string;
+  user: {
+    name: string;
+    image: string;
+    email: string;
+  };
 }
 
 export interface CommentResponse {

@@ -17,6 +17,15 @@ export async function GET(req: Request) {
     const comments = await prisma.comment.findMany({
       where: { movieId: Number(movieId) },
       orderBy: { createdAt: "desc" },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+            email: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(comments);
@@ -30,11 +39,9 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("Incoming comment:", body);
+    const { movieId, userId, content } = body;
 
-    const { movieId, userId, username, avatarUrl, content } = body;
-
-    if (!movieId || !userId || !username || !content) {
+    if (!movieId || !userId || !content) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
@@ -42,9 +49,16 @@ export async function POST(req: Request) {
       data: {
         movieId: Number(movieId),
         userId,
-        username,
-        avatarUrl,
         content,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
       },
     });
 

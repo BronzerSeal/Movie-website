@@ -11,7 +11,6 @@ const MovieRatingCard = ({ voteAverage, voteCount }: RatingProps) => {
   const stars = Math.round(voteAverage / 2);
   const avg = (voteAverage / 2).toFixed(1);
 
-  // примерное распределение
   const distribution = getRatingDistribution(voteAverage);
 
   return (
