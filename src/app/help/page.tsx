@@ -2,10 +2,10 @@
 import helpPageConfig from "@/config/helpPage.config";
 import { Input } from "@heroui/input";
 import { Accordion, AccordionItem, Button } from "@heroui/react";
-import { Album, HeartHandshake, Search } from "lucide-react";
+import { Album, HeartHandshake, LucideIcon, Search } from "lucide-react";
 
 const HelpPage = () => {
-  const iconsMap: any = {
+  const iconsMap: Record<string, LucideIcon> = {
     HeartHandshake: HeartHandshake,
     Album: Album,
   };

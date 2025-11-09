@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios";
+
 export interface Comment {
   content: string;
   createdAt: string;
@@ -12,11 +14,4 @@ export interface Comment {
   };
 }
 
-export interface CommentResponse {
-  config: any;
-  data: Comment[];
-  headers: any;
-  request: any;
-  status: number;
-  statusText: string;
-}
+export type CommentResponse = AxiosResponse<Comment[]>;

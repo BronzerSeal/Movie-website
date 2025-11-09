@@ -86,7 +86,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             favouriteMovies: true,
           },
         });
-
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         (session.user as any).id = token.id;
         (session.user as any).about = dbUser?.about || null;
         (session.user as any).image =
@@ -95,6 +95,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           dbUser?.name || (token as any).name || null;
         (session.user as any).favouriteMovies =
           dbUser?.favouriteMovies || (token as any).favouriteMovies || [];
+        /* eslint-enable @typescript-eslint/no-explicit-any */
       }
 
       return session;

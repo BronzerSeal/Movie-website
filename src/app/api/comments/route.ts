@@ -29,9 +29,12 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(comments);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Error in POST /api/comments:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
   }
 }
 
@@ -63,8 +66,13 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(comment, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Error in POST /api/comments:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
   }
 }

@@ -18,3 +18,14 @@ declare module "next-auth" {
     favouriteMovies?: string[];
   }
 }
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    name: string | null;
+    email: string | null;
+    image: string | null;
+    about: string | null;
+    favouriteMovies: string[];
+  }
+}

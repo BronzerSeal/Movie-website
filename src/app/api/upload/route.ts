@@ -26,8 +26,13 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: imageUrl });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log("error: ", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
   }
 }
