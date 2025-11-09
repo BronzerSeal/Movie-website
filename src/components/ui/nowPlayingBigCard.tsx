@@ -72,7 +72,7 @@ const NowPlayingBigCard = ({
               onClick={toggleHeart}
               className={`cursor-pointer transition-all duration-200 mt-0.5 mr-1 ${
                 isFavourite
-                  ? "text-red-500 fill-red-500 scale-110"
+                  ? "text-red-500 fill-red-500 scale-110 "
                   : "scale-100"
               }`}
             />
