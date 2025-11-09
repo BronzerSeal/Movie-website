@@ -68,7 +68,7 @@ const NowPlayingBigCard = ({
         <div className="flex ">
           {session?.user?.id && (
             <Heart
-              size={28}
+              size={showButtons ? 35 : 28}
               onClick={toggleHeart}
               className={`cursor-pointer transition-all duration-200 mt-0.5 mr-1 ${
                 isFavourite
@@ -86,7 +86,7 @@ const NowPlayingBigCard = ({
           </h1>
 
           {showButtons && (
-            <div className="flex items-center gap-2 py-1">
+            <div className="flex items-center gap-2 py-1 ml-2">
               <Link href={`movie/${id}`}>
                 <Button color="danger">
                   <Image
