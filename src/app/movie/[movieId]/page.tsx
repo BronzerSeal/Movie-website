@@ -61,7 +61,7 @@ const MoviePage = () => {
 
     loadMovies();
     return () => reset();
-  }, [movieId]);
+  }, [movieId, reset, setError, setLoading, setMovie, setSimilarMovies]);
 
   useEffect(() => {
     async function loadComments() {
@@ -78,7 +78,7 @@ const MoviePage = () => {
     }
 
     loadComments();
-  }, [movieId]);
+  }, [movieId, setCommentError, setCommentLoading, setComments]);
 
   if (loading) return <p>Loading...</p>;
   if (error)

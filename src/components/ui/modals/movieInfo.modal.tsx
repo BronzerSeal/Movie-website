@@ -1,13 +1,6 @@
 "use client";
 import CustomModal from "@/components/common/modals";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-} from "@heroui/react";
+import { ModalBody } from "@heroui/react";
 
 interface IProps {
   isOpen: boolean;

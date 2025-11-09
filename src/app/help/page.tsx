@@ -57,7 +57,7 @@ const HelpPage = () => {
       </section>
 
       <section className="mt-3 flex flex-col justify-center items-center">
-        <h1 className="font-bold text-2xl">Didn't find answer?</h1>
+        <h1 className="font-bold text-2xl">Didn&apos;t find answer?</h1>
         <h2 className="text-gray-500">chat with us</h2>
 
         <div className="flex flex-col md:flex-row gap-4">

@@ -35,7 +35,7 @@ const AppLoader = ({ children }: IProps) => {
         setLoading("NowPlaying", true);
         const data = await movieService.getNowPlayingFilms();
         setNowPlaying(data.results);
-      } catch (err) {
+      } catch (_err) {
         setError("NowPlaying", "Ошибка загрузки");
       } finally {
         setLoading("NowPlaying", false);
@@ -55,7 +55,7 @@ const AppLoader = ({ children }: IProps) => {
         setLoading("upcoming", true);
         const data = await movieService.getUpcomingFilms();
         setUpcoming(data.results.slice(1, 7));
-      } catch (err) {
+      } catch (_err) {
         setError("upcoming", "Ошибка загрузки");
       } finally {
         setLoading("upcoming", false);
@@ -65,7 +65,7 @@ const AppLoader = ({ children }: IProps) => {
         setLoading("topRated", true);
         const data = await movieService.getTopRatedFilms();
         setTopRated(data.results.slice(1, 7));
-      } catch (err) {
+      } catch (_err) {
         setError("topRated", "Ошибка загрузки");
       } finally {
         setLoading("topRated", false);

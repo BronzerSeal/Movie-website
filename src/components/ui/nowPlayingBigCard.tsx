@@ -37,10 +37,11 @@ const NowPlayingBigCard = ({
 
   const toggleHeart = async () => {
     setIsFavourite((PrevState) => !PrevState);
+    if (!session?.user?.id) return;
 
     const response = await toggleFavouriteMovie(
       id.toString(),
-      session?.user?.id!
+      session?.user?.id
     );
     await update({
       user: { ...session!.user, favouriteMovies: response },
